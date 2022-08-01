@@ -454,7 +454,9 @@ class _MyHomeTextTranslate extends State<HomeTextTranslateScreen> {
                                                       return const Text(
                                                         'there seems to be a problem, wait a moment.'
                                                             ' if it takes too long please check the'
-                                                            ' network connection, or restart the app',
+                                                            ' network connection,and '
+                                                            'make sure you have selected the language'
+                                                            ',or restart the app',
                                                         style: TextStyle(
                                                             fontFamily: 'Inter',
                                                             color: Colors.red

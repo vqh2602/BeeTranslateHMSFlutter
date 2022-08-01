@@ -533,9 +533,11 @@ if(chat) {
                                       color: Colors.white10,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: InkWell(
-                                    onTap:  _speechToText.isNotListening
+                                    onTap:  _selactLanguage1?.languageCode!=null?
+                                    _speechToText.isNotListening
                                         ? _startListening
-                                        : _stopListening,
+                                        : _stopListening
+                                    : null,
                                     child: !_speechToText.isNotListening? Icon(Icons.settings_voice,color: Colors.white,size: 10.w,):Icon(Icons.keyboard_voice,color: Colors.white,size: 10.w,),
                                   )
                                 ),

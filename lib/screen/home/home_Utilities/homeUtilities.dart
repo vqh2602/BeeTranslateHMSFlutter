@@ -1,4 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:beetranslatehms/screen/home/home_Utilities/utilities/accountScreen.dart';
+import 'package:beetranslatehms/screen/home/home_Utilities/utilities/weatherWidget/weatherScreen.dart';
 
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,106 +37,13 @@ class _MyHomeUtilitiesScreen extends State<HomeUtilitiesScreen> {
   String _lastWords = '';
 
 
-  Future<void> safeState() async {
-    // Obtain shared preferences.
-
-    final prefs = await SharedPreferences.getInstance();
-    // Try reading data from the 'counter' key. If it doesn't exist, returns null.
-    final int? counter1 = prefs.getInt('indexLang1');
-    final int? counter2 = prefs.getInt('indexLang2');
-    setState(() {
-      _selactLanguage1 = getLanguages[counter1!];
-      _selactLanguage2 = getLanguages[counter2!];
-    });
-  }
-
-
-  Future<String> getTranslate()async {
-    //  String text = _textEditingControllerTrans.text;
-    // Translator translator = Translator(from: _selactLanguage1!.languageCode, to: _selactLanguage2!.languageCode);
-    // String translatedText = await translator.translate(text);
-    // //print ('dich: ${VIETNAMESE.toString()}');
-    // return translatedText;
-
-    final gt = SimplyTranslator(EngineType.google);
-    String textResult = await gt.trSimply(_textEditingControllerTrans.text,
-        _selactLanguage1!.languageCode,
-        _selactLanguage2!.languageCode);
-    return textResult;
-  }
-
-  Future<void> getVoice1()async {
-    ///use Google Translate
-    final gt = SimplyTranslator(EngineType.google);
-    String url = gt.getTTSUrlSimply(_textEditingControllerTrans.text, _selactLanguage1!.languageCode);
-
-    print('url:$url');
-
-    //await player.play();
-    audioPlayer.play(url); // equivalent to setSource(UrlSource(url));
-  }
-  Future<void> getVoice2()async {
-    ///use Google Translate
-    final gt = SimplyTranslator(EngineType.google);
-    String url = gt.getTTSUrlSimply(await getTranslate(), _selactLanguage2!.languageCode);
-
-    print('url:$url');
-
-    //await player.play();
-    audioPlayer.play(url); // equivalent to setSource(UrlSource(url));
-  }
-
-
-  void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
-    setState(() {});
-  }
-
-  /// Each time to start a speech recognition session
-  void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
-    setState(() {});
-  }
-
-  /// Manually stop the active speech recognition session
-  /// Note that there are also timeouts that each platform enforces
-  /// and the SpeechToText plugin supports setting timeouts on the
-  /// listen method.
-  void _stopListening() async {
-    await _speechToText.stop();
-    setState(() {});
-  }
-
-  /// This is the callback that the SpeechToText plugin calls when
-  /// the platform returns recognized words.
-  Future<void> _onSpeechResult(SpeechRecognitionResult result) async {
-    setState(() {
-      _lastWords = result.recognizedWords;
-      _textEditingControllerTrans.text = result.recognizedWords;
-      print('${result.recognizedWords} - ${result.finalResult}');
-    });
-
-    if (result.finalResult) {
-      setState(() {
-        _textEditingControllerTrans.text = result.recognizedWords;
-      });
-    }
-  }
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    safeState();
-    // translate();
-    _initSpeech();
-    _textEditingControllerTrans.text='';
-    _textEditingControllerTrans.addListener(_printLatestValue);
   }
-  void _printLatestValue() {
-    print('Second text field: ${_textEditingControllerTrans.text}');
-  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -158,7 +67,12 @@ class _MyHomeUtilitiesScreen extends State<HomeUtilitiesScreen> {
                     // acc
                     BlurryContainer(
                       child: InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => AccountScreen()),
+                          );
+                        },
                         child: Row(
                           children: [
                             Expanded(
@@ -247,6 +161,10 @@ class _MyHomeUtilitiesScreen extends State<HomeUtilitiesScreen> {
                     BlurryContainer(
                       child: InkWell(
                         onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => WeatherScreen()),
+                          );
                         },
                         child: Row(
                           children: [

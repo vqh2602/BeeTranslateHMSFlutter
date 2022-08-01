@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forestvpn_huawei_ads/adslite/hw_ads.dart';
+import 'package:intl/date_symbol_data_file.dart';
 
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
@@ -28,7 +29,6 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   //info app
 
-
   final UserRepositoryHMS _userRepository = UserRepositoryHMS();
 
 
@@ -44,6 +44,9 @@ Future<void> main() async {
                   providers: [
                     BlocProvider<LoginBloc>(
                       create: (BuildContext context) => LoginBloc(userRepository: _userRepository),
+                    ),
+                    BlocProvider<AuthenticationBloc>(
+                      create: (BuildContext context) => AuthenticationBloc(userRepository: _userRepository),
                     ),
                   ],
                   child: MyApp(userRepository: _userRepository,),
