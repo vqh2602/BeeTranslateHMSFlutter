@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forestvpn_huawei_ads/adslite/hw_ads.dart';
 import 'package:intl/date_symbol_data_file.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
@@ -23,10 +24,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await HwAds.init();
 
-
   // ngôn ngữ
   // WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  SharedPreferences.setMockInitialValues({});
   //info app
 
   final UserRepositoryHMS _userRepository = UserRepositoryHMS();

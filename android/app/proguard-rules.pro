@@ -1,4 +1,4 @@
-
+-keep class androidx.lifecycle.DefaultLifecycleObserver
 
 
 -ignorewarnings
