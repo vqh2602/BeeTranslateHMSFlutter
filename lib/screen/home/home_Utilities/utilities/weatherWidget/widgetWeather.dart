@@ -116,7 +116,7 @@ Widget currentWeatherHourly(int time,int status, int temp, bool daynight, BuildC
               ),),
             Container(
               width: 30,
-              child: Image.asset('assets/image/weather/${getIconWeatherDaily(status)}.png',width: 20,fit: BoxFit.contain,)
+              child: Image.asset('assets/image/weather/${getIconWeatherHourly(status,convertTimeDaily(time))}.png',width: 20,fit: BoxFit.contain,)
             ),
             Row(
               children: [
@@ -278,6 +278,34 @@ String getIconWeatherDaily(int x){
   return 'w3';
   }else if(x == 14 ){
   return 'w4';
+  }else if(x == 6 || x ==7 || x ==8 || x==38 || x==43){
+    return 'w5';
+  }else if(x == 13 || x ==12 || x ==18 || x==39 || x==43){
+    return 'w6';
+  }else if(x == 15 || x ==16 || x ==17 || x==41 || x==42){
+    return 'w7';
+  }else if(x == 11 ){
+    return 'w8';
+  }else if(x == 14 || x ==20 || x ==21 || x==22 || x==44 || x == 29){
+    return 'w9';
+  }else if(x == 24 || x ==25 || x ==26 ){
+    return 'w10';
+  }else{
+    //37
+    return 'w11';
+  }
+}
+String getIconWeatherHourly(int x, DateTime dt){
+
+  if(x == 1 || x ==2 || x ==30 || x==33 || x==34){
+    return dt.hour<17?'w1':'w13';
+  }else if(x == 3){
+    return dt.hour<17?'w2':'w11';
+
+  }else if(x == 4 || x ==5 || x ==35 || x==36){
+    return dt.hour<17?'w3':'w11';
+  }else if(x == 14 ){
+    return dt.hour<17?'w2':'w12';
   }else if(x == 6 || x ==7 || x ==8 || x==38 || x==43){
     return 'w5';
   }else if(x == 13 || x ==12 || x ==18 || x==39 || x==43){

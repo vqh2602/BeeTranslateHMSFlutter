@@ -3,9 +3,14 @@ import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:huawei_location/permission/permission_handler.dart';
+import 'package:huawei_push/huawei_push.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:location_service_check/location_service_check.dart';
 
 import '../../Color/colors.dart';
+import '../../ads/pushKit.dart';
 import 'home_CameraTranslate/homeCameraTranslate.dart';
 import 'home_TextTranslate/homeTextTranslate.dart';
 import 'home_Utilities/homeUtilities.dart';
@@ -24,14 +29,75 @@ class HomeScreen extends StatefulWidget{
 
 }
 class _MyHomeScreen extends State<HomeScreen>{
-
+  PermissionHandler permissionHandler = PermissionHandler();
   int _currentIndex = 0;
   late PageController _pageController;
 
+
+  String token = '';
+  //
+  void _onTokenEvent(String event) {
+    token = event;
+    if (token != '') {
+      print("TokenEvent: " + token);
+    }
+  }
+
+  void _onTokenError(PlatformException error) {
+    print("TokenErrorEvent: " + error.toString());
+  }
+
+  void subscribe() async {
+    String topic = "meow";
+    String result = await Push.subscribe(topic);
+  }
+
+  Future<void> initTokenStream() async {
+    if (token != '') {
+      Push.getTokenStream.listen(_onTokenEvent, onError: _onTokenError);
+    }
+  }
+
+  Future<void> getToken() async {
+    try {
+      Push.enableLogger();
+
+      Push.getToken("");
+
+      print('Huawei push token ::  ');
+
+      Push.disableLogger();
+    } catch (e) {
+      print(e.toString());
+      print('THISIS EXCEPTION');
+    }
+  }
+
+  Future<void> checkInternetLocation() async {
+    bool isOpen = await LocationServiceCheck.checkLocationIsOpen;
+    print('bat vi tri $isOpen');
+    if (!isOpen) {
+      // Use location.
+      await LocationServiceCheck.openLocationSetting();
+    }
+    try {
+      bool status = await permissionHandler.requestLocationPermission();
+      // true if permissions are granted; false otherwise
+    } catch (e) {
+      print(e.toString);
+    }
+  }
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+checkInternetLocation();
+
+    getId();
+    getAAID();
+    getToken();
+    subscribe();
+    initTokenStream();
   }
 
   @override

@@ -183,11 +183,21 @@ class _MyWeatherScreen extends State<WeatherScreen>{
                           );
 
                         } else if (snapshot.hasError) {
-                          return Text('Lỗi');
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text('stop like there was an error, please check network connection, location services. if the condition persists please restart the utility',style: TextStyle(
+                                color: Colors.red
+                              ),),
+                            ),
+                          );
                         } else {
-                          return Text('Loadding...',style: TextStyle(
-                            fontSize: 20
-                          ),);
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Text('Loading weather data...\nPlease wait a few minutes. usually it takes some time to load data for the first time'),
+                            ),
+                          );
                         }
                       },
                     ),

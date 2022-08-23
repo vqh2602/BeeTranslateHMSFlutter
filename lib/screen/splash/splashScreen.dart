@@ -6,6 +6,7 @@ import 'package:huawei_account/huawei_account.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import '../../Color/colors.dart';
+import '../../ads/hmsAdKit.dart';
 import '../home/homeScreen.dart';
 
 
@@ -31,6 +32,9 @@ class _MySplashScreen extends State<SplashScreen> {
     super.initState();
     // _userBloc = BlocProvider.of<UserBloc>(context);
     Future.delayed(const Duration(seconds: 2),(){
+      createAdHms()
+        ..loadAd()
+        ..show();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
     });
   }
